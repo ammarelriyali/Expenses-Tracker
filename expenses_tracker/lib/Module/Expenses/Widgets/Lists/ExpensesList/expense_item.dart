@@ -1,5 +1,7 @@
 import 'package:expenses_tracker/Module/Expenses/Enums/category_enum.dart';
-import 'package:expenses_tracker/Module/Expenses/Models/ExpenseModel.dart';
+import 'package:expenses_tracker/Module/Expenses/Models/expense_model.dart';
+import 'package:expenses_tracker/Util/Constants/expenses/expense_item_constants.dart';
+import 'package:expenses_tracker/Util/Constants/theme_constants.dart';
 import 'package:flutter/material.dart';
 
 class ExpenseItem extends StatelessWidget{
@@ -8,17 +10,17 @@ final ExpenseModel expense;
   @override
   Widget build(BuildContext context) {
     return Card(child: Padding(
-      padding: const EdgeInsets.all(12.0),
+      padding: const EdgeInsets.all(ThemeConstants.defaultPaddingCard),
       child: Column(
         children: <Widget>[
           Text(expense.title),
-           const SizedBox(height: 12),
+           const SizedBox(height: ThemeConstants.defaultSpacingVertical),
           Row(
             children: [
               Text("\$ ${expense.amount.toString()}"),
              const Spacer(),
                Icon(expense.category.icon()),
-              const SizedBox(width: 8),
+              const SizedBox(width: ExpenseItemConstants.paddingBetweenIconDate),
               Text(expense.date),
             ],
           ),

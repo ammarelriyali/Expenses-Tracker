@@ -1,7 +1,7 @@
-import 'package:expenses_tracker/Module/Expenses/Enums/category_enum.dart';
+import 'package:expenses_tracker/Util/Constants/expenses/expenses_constants.dart';
 import 'package:flutter/material.dart';
-import 'package:expenses_tracker/Module/Expenses/Models/ExpenseModel.dart';
 import 'package:expenses_tracker/Module/Expenses/Widgets/Lists/ExpensesList/expenses_list.dart';
+import 'package:expenses_tracker/Module/Expenses/Models/mock_expense_model.dart';
 
 class ExpensesPage extends StatefulWidget {
   const ExpensesPage({super.key});
@@ -13,10 +13,6 @@ class ExpensesPage extends StatefulWidget {
 }
 
 class _ExpensesPage extends State<ExpensesPage> {
-  final List<ExpenseModel> _registeredExpenses = [
-    ExpenseModel(title: "Flutter", amount: 19.99, category: CategoryEnum.work),
-    ExpenseModel(title: "Cinema", amount: 15.69, category: CategoryEnum.food)
-  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,14 +20,14 @@ class _ExpensesPage extends State<ExpensesPage> {
           actions: [
             IconButton(
                 onPressed: () {
-                  print("object");
+                  print("test");
                 },
-                icon: const Icon(Icons.add))
+                icon: const Icon(ExpensesConstants.appBarIcon))
           ],
         ),
         body: Center(
           child: Column(children: [
-            Expanded(child: ExpensesList(expenses: _registeredExpenses))
+            Expanded(child: ExpensesList(expenses: registeredExpenses))
           ]),
         ));
   }
