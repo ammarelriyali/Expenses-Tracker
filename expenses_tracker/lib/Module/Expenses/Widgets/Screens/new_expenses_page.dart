@@ -12,27 +12,52 @@ class NewExpensesPage extends StatefulWidget {
 }
 
 class _NewExpensesPage extends State<NewExpensesPage> {
-  final _textEditingController = TextEditingController();
+  final _titleTextController = TextEditingController();
+  final _amountTextController = TextEditingController();
 
   @override
   void dispose() {
-    _textEditingController.dispose();
+    _titleTextController.dispose();
+    _amountTextController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return  Padding(
+    return Padding(
       padding: const EdgeInsets.all(ThemeConstants.defaultPadding),
       child: Column(
         children: [
-          TextField(controller: _textEditingController,
-            maxLength: NewExpenseConstants.expenseNameTextLength,
+          TextField(
+            controller: _titleTextController,
+            maxLength: NewExpenseConstants.expenseTitleTextLength,
             decoration: const InputDecoration(
-                label: Text(NewExpenseConstants.expenseNameText)),
+                label: Text(NewExpenseConstants.expenseTitleText)),
+          ),
+          TextField(
+            controller: _amountTextController,
+            keyboardType: TextInputType.number,
+            maxLength: NewExpenseConstants.expenseTitleTextLength,
+            decoration: const InputDecoration( prefixText: "\$ ",
+                label: Text(NewExpenseConstants.expenseAmountText)),
           ),
           Row(
-            children: [ElevatedButton(onPressed: (){print(_textEditingController.text);}, child: const Text(NewExpenseConstants.expenseNameSaveButton))],
+            children: [
+              
+              ElevatedButton(
+                  onPressed: () {
+                    print(_titleTextController.text);
+                    print(_amountTextController.text);
+                  },
+                  child: const Text(NewExpenseConstants.expenseSaveButton)),
+                  const SizedBox(width: ThemeConstants.defaultSpacingHorizontal),
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child:
+                      const Text(NewExpenseConstants.expenseCancelButton))
+            ],
           )
         ],
       ),

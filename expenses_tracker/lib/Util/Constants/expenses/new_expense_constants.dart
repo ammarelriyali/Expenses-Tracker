@@ -1,5 +1,7 @@
 class NewExpenseConstants {
-  static const expenseNameTextLength = 50;
-  static const expenseNameText = "Title";
-  static const expenseNameSaveButton = "Save Expense";
+  static const expenseTitleTextLength = 50;
+  static const expenseTitleText = "Title";
+  static const expenseAmountText = "Amount";
+  static const expenseSaveButton = "Save Expense";
+  static const expenseCancelButton = "Cancel";
 }
