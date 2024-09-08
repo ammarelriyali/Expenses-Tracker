@@ -14,8 +14,8 @@ class ExpensesPage extends StatefulWidget {
 }
 
 class _ExpensesPage extends State<ExpensesPage> {
-  void _biuldBottom(){
-    showModalBottomSheet(context: context, builder: (ctx) {return const Text("amar");});
+  void _buildBottom(){
+    showModalBottomSheet(context: context, builder: (ctx) {return const NewExpensesPage();});
   }
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class _ExpensesPage extends State<ExpensesPage> {
         appBar: AppBar(title: const Text(ExpensesConstants.title),
           actions: [
             IconButton(
-                onPressed: _biuldBottom,
+                onPressed: _buildBottom,
                 icon: const Icon(ExpensesConstants.appBarIcon))
           ],
         ),
