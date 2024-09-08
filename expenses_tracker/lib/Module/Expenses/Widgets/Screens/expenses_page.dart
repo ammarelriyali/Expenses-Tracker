@@ -1,3 +1,4 @@
+import 'package:expenses_tracker/Module/Expenses/Widgets/Screens/new_expenses_page.dart';
 import 'package:expenses_tracker/Util/Constants/expenses/expenses_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:expenses_tracker/Module/Expenses/Widgets/Lists/ExpensesList/expenses_list.dart';
@@ -13,15 +14,16 @@ class ExpensesPage extends StatefulWidget {
 }
 
 class _ExpensesPage extends State<ExpensesPage> {
+  void _biuldBottom(){
+    showModalBottomSheet(context: context, builder: (ctx) {return const Text("amar");});
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
+        appBar: AppBar(title: const Text(ExpensesConstants.title),
           actions: [
             IconButton(
-                onPressed: () {
-                  print("test");
-                },
+                onPressed: _biuldBottom,
                 icon: const Icon(ExpensesConstants.appBarIcon))
           ],
         ),
