@@ -1,7 +1,10 @@
 class NewExpenseConstants {
-  static const expenseTitleTextLength = 50;
-  static const expenseTitleText = "Title";
-  static const expenseAmountText = "Amount";
-  static const expenseSaveButton = "Save Expense";
-  static const expenseCancelButton = "Cancel";
+  NewExpenseConstants._();
+  static const titleTextLength = 50;
+  static const titleText = "Title";
+  static const amountText = "Amount";
+  static const amountPrefixText = "\$ ";
+  static const saveButton = "Save Expense";
+  static const cancelButton = "Cancel";
+  static const selectDate= "Select date";
 }
