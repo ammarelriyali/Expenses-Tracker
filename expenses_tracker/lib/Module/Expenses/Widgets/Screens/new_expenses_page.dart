@@ -1,3 +1,4 @@
+import 'package:expenses_tracker/Module/Expenses/Enums/category_enum.dart';
 import 'package:expenses_tracker/Util/Constants/expenses/new_expense_constants.dart';
 import 'package:expenses_tracker/Util/Constants/theme_constants.dart';
 import 'package:flutter/material.dart';
@@ -75,6 +76,8 @@ class _NewExpensesPage extends State<NewExpensesPage> {
           ),
           Row(
             children: [
+            DropdownButton(items: CategoryEnum.values.map((category) => DropdownMenuItem(value: category, child: Text(category.name.toUpperCase()))).toList(),
+             onChanged: (value) => print(value)),
               ElevatedButton(
                   onPressed: () {
                     print(_titleTextController.text);
