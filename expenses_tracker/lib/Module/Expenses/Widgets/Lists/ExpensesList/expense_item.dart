@@ -21,7 +21,7 @@ final ExpenseModel expense;
              const Spacer(),
                Icon(expense.category.icon()),
               const SizedBox(width: ExpenseItemConstants.paddingBetweenIconDate),
-              Text(expense.date),
+              Text(expense.dateFormatted),
             ],
           ),
         ],

@@ -1,13 +1,15 @@
 import 'package:expenses_tracker/Module/Expenses/Enums/category_enum.dart';
+import 'package:expenses_tracker/Module/Expenses/Models/expense_model.dart';
 import 'package:expenses_tracker/Util/Constants/expenses/new_expense_constants.dart';
 import 'package:expenses_tracker/Util/Constants/theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
 final formatter = DateFormat.MMMEd();
 
 class NewExpensesPage extends StatefulWidget {
-  const NewExpensesPage({super.key});
-
+  const NewExpensesPage({super.key, required this.onAddExpense });
+  final void Function(ExpenseModel) onAddExpense;
   @override
   State<NewExpensesPage> createState() {
     return _NewExpensesPage();
@@ -17,17 +19,40 @@ class NewExpensesPage extends StatefulWidget {
 class _NewExpensesPage extends State<NewExpensesPage> {
   final _titleTextController = TextEditingController();
   final _amountTextController = TextEditingController();
+  CategoryEnum _selectedDropDown = CategoryEnum.food;
   DateTime? _selectedDate;
+
+  void _submitExpensesData() {
+    final amount = double.tryParse(_amountTextController.text);
+    final isNotValidAmount = amount == null || amount <= 0;
+    if (isNotValidAmount ||
+        _titleTextController.text.trim().isEmpty ||
+        _selectedDate == null) {
+      showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+                title: const Text(NewExpenseConstants.alertErrorTitle),
+                content: const Text(NewExpenseConstants.alertErrorMassage),
+                actions: [
+                  TextButton(
+                      onPressed: () => Navigator.pop(ctx), child: Text(NewExpenseConstants.alertErrorButtonText))
+                ],
+              ));
+      return;
+    } else {
+        widget.onAddExpense(ExpenseModel(title: _titleTextController.text, amount: amount, category: _selectedDropDown, date: _selectedDate!));
+    }
+  }
 
   void _showDate() async {
     final date = DateTime.now();
-    final firstDate = DateTime(date.year,date.month -1); 
-    final lastDate = DateTime(date.year,date.month +1); 
-    final result  = await showDatePicker(
+    final firstDate = DateTime(date.year, date.month - 1);
+    final lastDate = DateTime(date.year, date.month + 1);
+    final result = await showDatePicker(
         context: context, firstDate: firstDate, lastDate: lastDate);
-      setState(() {
-        _selectedDate = result ;
-      });
+    setState(() {
+      _selectedDate = result;
+    });
   }
 
   @override
@@ -66,30 +91,43 @@ class _NewExpensesPage extends State<NewExpensesPage> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(_selectedDate == null ? NewExpenseConstants.selectDate : formatter.format(_selectedDate!)),
+                    Text(_selectedDate == null
+                        ? NewExpenseConstants.selectDate
+                        : formatter.format(_selectedDate!)),
                     IconButton(
-                        onPressed: _showDate, icon: const Icon(Icons.date_range))
+                        onPressed: _showDate,
+                        icon: const Icon(Icons.date_range))
                   ],
                 ),
               ),
             ],
           ),
+          const SizedBox(height: ThemeConstants.defaultSpacingVertical),
           Row(
             children: [
-            DropdownButton(items: CategoryEnum.values.map((category) => DropdownMenuItem(value: category, child: Text(category.name.toUpperCase()))).toList(),
-             onChanged: (value) => print(value)),
-              ElevatedButton(
-                  onPressed: () {
-                    print(_titleTextController.text);
-                    print(_amountTextController.text);
-                  },
-                  child: const Text(NewExpenseConstants.saveButton)),
-              const SizedBox(width: ThemeConstants.defaultSpacingHorizontal),
+              DropdownButton(
+                  items: CategoryEnum.values
+                      .map((category) => DropdownMenuItem(
+                          value: category,
+                          child: Text(category.name.toUpperCase())))
+                      .toList(),
+                  value: _selectedDropDown,
+                  onChanged: (value) => setState(() {
+                        if (value == null) {
+                          return;
+                        }
+                        _selectedDropDown = value;
+                      })),
+              const Spacer(),
               TextButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: const Text(NewExpenseConstants.cancelButton))
+                  child: const Text(NewExpenseConstants.cancelButton)),
+              const SizedBox(width: ThemeConstants.defaultSpacingHorizontal),
+              ElevatedButton(
+                  onPressed: _submitExpensesData,
+                  child: const Text(NewExpenseConstants.saveButton)),
             ],
           )
         ],

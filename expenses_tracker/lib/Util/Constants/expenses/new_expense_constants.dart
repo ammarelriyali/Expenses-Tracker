@@ -7,4 +7,7 @@ class NewExpenseConstants {
   static const saveButton = "Save Expense";
   static const cancelButton = "Cancel";
   static const selectDate= "Select date";
+  static const alertErrorTitle= "Invalid Data";
+  static const alertErrorButtonText= "Okay";
+  static const alertErrorMassage= "The data you enter is invalid please enter correct data";
 }
