@@ -41,6 +41,7 @@ class _NewExpensesPage extends State<NewExpensesPage> {
       return;
     } else {
         widget.onAddExpense(ExpenseModel(title: _titleTextController.text, amount: amount, category: _selectedDropDown, date: _selectedDate!));
+        Navigator.pop(context);
     }
   }
 
@@ -65,7 +66,10 @@ class _NewExpensesPage extends State<NewExpensesPage> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(ThemeConstants.defaultPadding),
+      padding: const  EdgeInsets.fromLTRB(ThemeConstants.defaultPaddingTrailing,
+       ThemeConstants.defaultPaddingTopInFullScreenMode,
+        ThemeConstants.defaultPaddingLeading,
+        ThemeConstants.defaultPaddingBottom),
       child: Column(
         children: [
           TextField(

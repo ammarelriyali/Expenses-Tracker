@@ -32,10 +32,13 @@ class _ExpensesPage extends State<ExpensesPage> {
       _registeredExpenses.add(expenseModel);
     });
   }
+    void _addNewExpenses(ExpenseModel expenseModel) {
+    }
 
   void _buildBottom() {
     showModalBottomSheet(
         context: context,
+        isScrollControlled: true,
         builder: (ctx) {
           return NewExpensesPage(onAddExpense: _addNewExpenses);
         });
