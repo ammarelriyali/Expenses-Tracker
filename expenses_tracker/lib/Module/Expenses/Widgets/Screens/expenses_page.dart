@@ -32,7 +32,8 @@ class _ExpensesPage extends State<ExpensesPage> {
       _registeredExpenses.add(expenseModel);
     });
   }
-    void _addNewExpenses(ExpenseModel expenseModel) {
+    void _removeExpense(String id) {
+      _registeredExpenses.removeWhere((expense)=> expense.id == id);
     }
 
   void _buildBottom() {
@@ -57,7 +58,7 @@ class _ExpensesPage extends State<ExpensesPage> {
         ),
         body: Center(
           child: Column(children: [
-            Expanded(child: ExpensesList(expenses: _registeredExpenses))
+            Expanded(child: ExpensesList(expenses: _registeredExpenses, onRemoveExpense: _removeExpense))
           ]),
         ));
   }
