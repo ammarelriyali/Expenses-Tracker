@@ -10,6 +10,7 @@ final formatter = DateFormat.MMMEd();
 class NewExpensesPage extends StatefulWidget {
   const NewExpensesPage({super.key, required this.onAddExpense });
   final void Function(ExpenseModel) onAddExpense;
+
   @override
   State<NewExpensesPage> createState() {
     return _NewExpensesPage();
@@ -25,32 +26,49 @@ class _NewExpensesPage extends State<NewExpensesPage> {
   void _submitExpensesData() {
     final amount = double.tryParse(_amountTextController.text);
     final isNotValidAmount = amount == null || amount <= 0;
-    if (isNotValidAmount ||
-        _titleTextController.text.trim().isEmpty ||
-        _selectedDate == null) {
-      showDialog(
-          context: context,
-          builder: (ctx) => AlertDialog(
-                title: const Text(NewExpenseConstants.alertErrorTitle),
-                content: const Text(NewExpenseConstants.alertErrorMassage),
-                actions: [
-                  TextButton(
-                      onPressed: () => Navigator.pop(ctx), child: Text(NewExpenseConstants.alertErrorButtonText))
-                ],
-              ));
-      return;
+    if (_titleTextController.text.trim().isEmpty) {
+      _showErrorDialog('Please enter a title.');
+    } else if (isNotValidAmount) {
+      _showErrorDialog('Please enter a valid amount.');
+    } else if (_selectedDate == null) {
+      _showErrorDialog('Please select a date.');
     } else {
-        widget.onAddExpense(ExpenseModel(title: _titleTextController.text, amount: amount, category: _selectedDropDown, date: _selectedDate!));
-        Navigator.pop(context);
+      widget.onAddExpense(ExpenseModel(
+        title: _titleTextController.text,
+        amount: amount,
+        category: _selectedDropDown,
+        date: _selectedDate!,
+      ));
+      Navigator.pop(context);
     }
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text(NewExpenseConstants.alertErrorTitle),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text(NewExpenseConstants.alertErrorButtonText),
+          ),
+        ],
+      ),
+    );
   }
 
   void _showDate() async {
     final date = DateTime.now();
     final firstDate = DateTime(date.year, date.month - 1);
-    final lastDate = DateTime(date.year, date.month + 1);
+    final lastDate = DateTime(date.year + 1);
     final result = await showDatePicker(
-        context: context, firstDate: firstDate, lastDate: lastDate);
+      context: context,
+      initialDate: date,
+      firstDate: firstDate,
+      lastDate: lastDate,
+    );
     setState(() {
       _selectedDate = result;
     });
@@ -66,28 +84,32 @@ class _NewExpensesPage extends State<NewExpensesPage> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const  EdgeInsets.fromLTRB(ThemeConstants.defaultPaddingTrailing,
-       ThemeConstants.defaultPaddingTopInFullScreenMode,
+      padding: const EdgeInsets.fromLTRB(
+        ThemeConstants.defaultPaddingTrailing,
+        ThemeConstants.defaultPaddingTopInFullScreenMode,
         ThemeConstants.defaultPaddingLeading,
-        ThemeConstants.defaultPaddingBottom),
+        ThemeConstants.defaultPaddingBottom,
+      ),
       child: Column(
         children: [
           TextField(
             controller: _titleTextController,
             maxLength: NewExpenseConstants.titleTextLength,
             decoration: const InputDecoration(
-                label: Text(NewExpenseConstants.titleText)),
+              label: Text(NewExpenseConstants.titleText),
+            ),
           ),
           Row(
             children: [
               Expanded(
                 child: TextField(
                   controller: _amountTextController,
-                  keyboardType: TextInputType.number,
+                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
                   maxLength: NewExpenseConstants.titleTextLength,
                   decoration: const InputDecoration(
-                      prefixText: "\$ ",
-                      label: Text(NewExpenseConstants.amountText)),
+                    prefixText: "\$ ",
+                    label: Text(NewExpenseConstants.amountText),
+                  ),
                 ),
               ),
               Expanded(
@@ -99,8 +121,9 @@ class _NewExpensesPage extends State<NewExpensesPage> {
                         ? NewExpenseConstants.selectDate
                         : formatter.format(_selectedDate!)),
                     IconButton(
-                        onPressed: _showDate,
-                        icon: const Icon(Icons.date_range))
+                      onPressed: _showDate,
+                      icon: const Icon(Icons.date_range),
+                    ),
                   ],
                 ),
               ),
@@ -110,30 +133,32 @@ class _NewExpensesPage extends State<NewExpensesPage> {
           Row(
             children: [
               DropdownButton(
-                  items: CategoryEnum.values
-                      .map((category) => DropdownMenuItem(
+                items: CategoryEnum.values
+                    .map((category) => DropdownMenuItem(
                           value: category,
-                          child: Text(category.name.toUpperCase())))
-                      .toList(),
-                  value: _selectedDropDown,
-                  onChanged: (value) => setState(() {
-                        if (value == null) {
-                          return;
-                        }
-                        _selectedDropDown = value;
-                      })),
+                          child: Text(category.name.toUpperCase()),
+                        ))
+                    .toList(),
+                value: _selectedDropDown,
+                onChanged: (value) => setState(() {
+                  if (value == null) return;
+                  _selectedDropDown = value;
+                }),
+              ),
               const Spacer(),
               TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text(NewExpenseConstants.cancelButton)),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text(NewExpenseConstants.cancelButton),
+              ),
               const SizedBox(width: ThemeConstants.defaultSpacingHorizontal),
               ElevatedButton(
-                  onPressed: _submitExpensesData,
-                  child: const Text(NewExpenseConstants.saveButton)),
+                onPressed: _submitExpensesData,
+                child: const Text(NewExpenseConstants.saveButton),
+              ),
             ],
-          )
+          ),
         ],
       ),
     );

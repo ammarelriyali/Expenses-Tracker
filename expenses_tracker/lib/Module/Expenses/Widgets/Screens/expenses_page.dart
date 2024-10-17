@@ -14,6 +14,8 @@ class ExpensesPage extends StatefulWidget {
 }
 
 class _ExpensesPage extends State<ExpensesPage> {
+  int _indexOfRemovedExpense = 0;
+
   final List<ExpenseModel> _registeredExpenses = [
     ExpenseModel(
         title: "Flutter",
@@ -26,15 +28,34 @@ class _ExpensesPage extends State<ExpensesPage> {
         category: CategoryEnum.food,
         date: DateTime.now())
   ];
+  final Widget _placeHolder = const Text(ExpensesConstants.placeHolderMessage);
 
   void _addNewExpenses(ExpenseModel expenseModel) {
     setState(() {
       _registeredExpenses.add(expenseModel);
     });
   }
-    void _removeExpense(String id) {
-      _registeredExpenses.removeWhere((expense)=> expense.id == id);
-    }
+
+  void _removeExpense(ExpenseModel expenseModel) {
+    setState(() {
+      _indexOfRemovedExpense =
+          _registeredExpenses.indexWhere((expense) => expense == expenseModel);
+      _registeredExpenses.remove(expenseModel);
+    });
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      duration: Duration(seconds: 3),
+      content: Text(ExpensesConstants.deleteExpenseMessage),
+      action: SnackBarAction(
+          label: ExpensesConstants.deleteExpenseLabelTitle,
+          onPressed: () {
+            setState(() {
+                          _registeredExpenses.insert(_indexOfRemovedExpense, expenseModel);
+
+            });
+          }),
+    ));
+  }
 
   void _buildBottom() {
     showModalBottomSheet(
@@ -43,6 +64,13 @@ class _ExpensesPage extends State<ExpensesPage> {
         builder: (ctx) {
           return NewExpensesPage(onAddExpense: _addNewExpenses);
         });
+  }
+
+  Widget _getMainView() {
+    return _registeredExpenses.isEmpty
+        ? _placeHolder
+        : ExpensesList(
+            expenses: _registeredExpenses, onRemoveExpense: _removeExpense);
   }
 
   @override
@@ -56,10 +84,7 @@ class _ExpensesPage extends State<ExpensesPage> {
                 icon: const Icon(ExpensesConstants.appBarIcon))
           ],
         ),
-        body: Center(
-          child: Column(children: [
-            Expanded(child: ExpensesList(expenses: _registeredExpenses, onRemoveExpense: _removeExpense))
-          ]),
-        ));
+        body:
+            Center(child: Column(children: [Expanded(child: _getMainView())])));
   }
 }
