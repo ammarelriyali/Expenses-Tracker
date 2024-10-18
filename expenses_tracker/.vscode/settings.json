@@ -1,0 +1,7 @@
+{
+    "accessibility.signals.clear": {
+        "announcement": "off",
+        "sound": "off"
+    },
+    "editor.accessibilitySupport": "off"
+}
