@@ -1,6 +1,6 @@
 import 'package:expenses_tracker/Module/Expenses/Enums/category_enum.dart';
 import 'package:expenses_tracker/Module/Expenses/Models/expense_model.dart';
-import 'package:expenses_tracker/Module/Expenses/Widgets/Screens/new_expenses_page.dart';
+import 'package:expenses_tracker/Module/Expenses/Widgets/Screens/Expenses/new_expenses_page.dart';
 import 'package:expenses_tracker/Util/Constants/expenses/expenses_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:expenses_tracker/Module/Expenses/Widgets/Lists/ExpensesList/expenses_list.dart';
