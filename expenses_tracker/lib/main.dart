@@ -42,7 +42,7 @@ void main() {
                 textTheme: TextTheme().copyWith(titleLarge:TextStyle(color: kDarkColorScheme.onSecondaryContainer))
                 ),
 
-                themeMode: ThemeMode.dark,
+                themeMode: ThemeMode.system,
     home: const ExpensesPage(),
   ));
 }
