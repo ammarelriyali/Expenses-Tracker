@@ -13,7 +13,7 @@ final ExpenseModel expense;
       padding: const EdgeInsets.all(ThemeConstants.defaultPaddingCard),
       child: Column(
         children: <Widget>[
-          Text(expense.title),
+          Text(expense.title ,style: Theme.of(context).textTheme.titleLarge),
            const SizedBox(height: ThemeConstants.defaultSpacingVertical),
           Row(
             children: [
@@ -21,7 +21,7 @@ final ExpenseModel expense;
              const Spacer(),
                Icon(expense.category.icon()),
               const SizedBox(width: ExpenseItemConstants.paddingBetweenIconDate),
-              Text(expense.date),
+              Text(expense.dateFormatted),
             ],
           ),
         ],

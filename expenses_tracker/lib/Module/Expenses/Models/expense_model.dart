@@ -3,21 +3,20 @@ import 'package:expenses_tracker/Module/Expenses/Enums/category_enum.dart';
 import 'package:intl/intl.dart';
 
 const uuid = Uuid();
-final formatter = DateFormat.Hms();
+final formatter = DateFormat.yMd();
 
 class ExpenseModel {
   ExpenseModel(
-      {required this.title, required this.amount, required this.category})
-      : id = uuid.v4(),
-        _data = DateTime.now();
+      {required this.title, required this.amount, required this.category, required this.date})
+      : id = uuid.v4();
 
   final String id;
   final String title;
   final double amount;
-  final DateTime _data;
+  final DateTime date;
   final CategoryEnum category;
 
-  String get date {
-    return formatter.format(_data);
+  String get dateFormatted {
+    return formatter.format(date);
   }
 }
