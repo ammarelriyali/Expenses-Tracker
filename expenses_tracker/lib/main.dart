@@ -1,6 +1,6 @@
 import 'package:expenses_tracker/Util/Constants/theme_constants.dart';
 import 'package:flutter/material.dart';
-import 'package:expenses_tracker/Module/Expenses/Widgets/Screens/expenses_page.dart';
+import 'package:expenses_tracker/Module/Expenses/Widgets/Screens/Expenses/expenses_page.dart';
 
 var kColorScheme = ColorScheme.fromSeed(
   seedColor: const Color.fromARGB(255, 96, 59, 181),
@@ -42,7 +42,7 @@ void main() {
                 textTheme: TextTheme().copyWith(titleLarge:TextStyle(color: kDarkColorScheme.onSecondaryContainer))
                 ),
 
-                themeMode: ThemeMode.dark,
+                themeMode: ThemeMode.system,
     home: const ExpensesPage(),
   ));
 }

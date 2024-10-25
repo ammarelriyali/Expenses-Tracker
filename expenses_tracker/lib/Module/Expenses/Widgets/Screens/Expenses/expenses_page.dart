@@ -1,6 +1,7 @@
 import 'package:expenses_tracker/Module/Expenses/Enums/category_enum.dart';
 import 'package:expenses_tracker/Module/Expenses/Models/expense_model.dart';
-import 'package:expenses_tracker/Module/Expenses/Widgets/Screens/new_expenses_page.dart';
+import 'package:expenses_tracker/Module/Expenses/Widgets/Screens/Chart/chart.dart';
+import 'package:expenses_tracker/Module/Expenses/Widgets/Screens/Expenses/new_expenses_page.dart';
 import 'package:expenses_tracker/Util/Constants/expenses/expenses_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:expenses_tracker/Module/Expenses/Widgets/Lists/ExpensesList/expenses_list.dart';
@@ -50,8 +51,7 @@ class _ExpensesPage extends State<ExpensesPage> {
           label: ExpensesConstants.deleteExpenseLabelTitle,
           onPressed: () {
             setState(() {
-                          _registeredExpenses.insert(_indexOfRemovedExpense, expenseModel);
-
+              _registeredExpenses.insert(_indexOfRemovedExpense, expenseModel);
             });
           }),
     ));
@@ -84,7 +84,10 @@ class _ExpensesPage extends State<ExpensesPage> {
                 icon: const Icon(ExpensesConstants.appBarIcon))
           ],
         ),
-        body:
-            Center(child: Column(children: [Expanded(child: _getMainView())])));
+        body: Center(
+            child: Column(children: [
+          Chart(expenses: _registeredExpenses),
+          Expanded(child: _getMainView())
+        ])));
   }
 }
